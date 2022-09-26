@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 // import { setupListeners } from "@reduxjs/toolkit/query/react";
 import formBuilderSliceReducer from "./services/formBuilder/formBuilderSlice";
 import { formApi } from "./services/formApi";
-import formResponseReducer from "./services/formResponse";
+import formResponseReducer from "./services/formResponseSlice";
 
 export const store = configureStore({
   reducer: {

@@ -1,12 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+type SliceState = {
+  index: number;
+  value: string;
+}[];
+
+const initialState: SliceState = [];
 
 export const slice = createSlice({
   name: "formResponse",
   initialState,
   reducers: {
-    initForm: (state, action) => {
+    initForm: (_, action) => {
       return action.payload;
     },
     clearForm: () => {
@@ -20,6 +25,6 @@ export const slice = createSlice({
 });
 
 export const { initForm, clearForm, updateResponseInput } = slice.actions;
-export const formResponseSelector = (state) => state.formResponse;
+export const formResponseSelector = (state: any) => state.formResponse;
 
 export default slice.reducer;
