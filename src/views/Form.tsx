@@ -41,7 +41,6 @@ const Form = () => {
     });
   };
 
-  const { title, description } = data;
   return (
     <Box minH="100vh" py={4} px={2} bg="gray.200">
       <Container py={6}>
@@ -53,8 +52,8 @@ const Form = () => {
           <>
             <FormElementWrapper>
               <>
-                <Heading as="h1">{title}</Heading>
-                {description && <Text>{description}</Text>}
+                <Heading as="h1">{data.title}</Heading>
+                {data?.description && <Text>{data.description}</Text>}
                 <Text>
                   All the fields marked as{" "}
                   <Text fontSize="sm" color="red.500" as="span">
