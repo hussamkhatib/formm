@@ -13,6 +13,7 @@ import {
   initForm,
 } from "../app/services/formBuilder/formBuilderSlice";
 import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const EditForm = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const EditForm = () => {
     }
   }, [data]);
 
-  if (isLoading) return <Text>Loading</Text>;
+  if (isLoading) return <Loader />;
   if (error) return <Text>Error</Text>;
 
   const handleUpdate = async () => {

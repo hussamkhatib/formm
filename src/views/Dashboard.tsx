@@ -1,13 +1,13 @@
-import MeLayout from "../components/meLayout";
+import MainLayout from "../components/MainLayout";
 import MyForms from "../components/MyForms";
 import SelectTemplate from "../components/SelectTemplate";
 
 const Dashboard = () => {
   return (
-    <MeLayout>
+    <MainLayout>
       <SelectTemplate />
       <MyForms />
-    </MeLayout>
+    </MainLayout>
   );
 };
 

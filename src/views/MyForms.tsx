@@ -1,11 +1,11 @@
-import MeLayout from "../components/meLayout";
+import MainLayout from "../components/MainLayout";
 import MyForms from "../components/MyForms";
 
 const MyFormsPage = () => {
   return (
-    <MeLayout>
+    <MainLayout>
       <MyForms />
-    </MeLayout>
+    </MainLayout>
   );
 };
 

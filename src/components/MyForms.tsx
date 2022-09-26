@@ -23,6 +23,7 @@ import {
 import { Link as ReactRouteLink, useNavigate } from "react-router-dom";
 import { EditIcon } from "@chakra-ui/icons";
 import toast from "react-hot-toast";
+import Loader from "./Loader";
 
 type Time = {
   _seconds: number;
@@ -40,12 +41,11 @@ type Form = {
 
 const MyForms = () => {
   const { data: forms, isLoading, error } = useGetUserFormsQuery();
-  if (isLoading) return <Text>Loading...</Text>;
+  if (isLoading) return <Loader />;
   if (error) return <Text> error </Text>;
 
   if (Array.isArray(forms) && forms.length === 0)
     return <Text fontSize="xl"> No forms yet </Text>;
-
   return (
     <Box py={2} as="section">
       <Text as="h2" fontSize="2xl">

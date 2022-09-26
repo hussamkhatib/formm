@@ -22,6 +22,7 @@ import {
 } from "../app/services/formResponseSlice";
 import FormElementWrapper from "../components/FormElementWrapper";
 import { useParams } from "react-router";
+import Loader from "../components/Loader";
 
 const Form = () => {
   const dispatch = useDispatch();
@@ -40,97 +41,101 @@ const Form = () => {
     });
   };
 
-  //   @FIXME: handler it in a better way
-  if (isLoading) return <Text>Loading </Text>;
-  if (error) return <Text>Something went wrong</Text>;
-
   const { title, description } = data;
   return (
     <Box minH="100vh" py={4} px={2} bg="gray.200">
       <Container py={6}>
-        <FormElementWrapper>
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Text>Something went wrong</Text>
+        ) : (
           <>
-            <Heading as="h1">{title}</Heading>
-            {description && <Text>{description}</Text>}
-            <Text>
-              All the fields marked as{" "}
-              <Text fontSize="sm" color="red.500" as="span">
-                *{" "}
-              </Text>
-              are required
-            </Text>
+            <FormElementWrapper>
+              <>
+                <Heading as="h1">{title}</Heading>
+                {description && <Text>{description}</Text>}
+                <Text>
+                  All the fields marked as{" "}
+                  <Text fontSize="sm" color="red.500" as="span">
+                    *{" "}
+                  </Text>
+                  are required
+                </Text>
+              </>
+            </FormElementWrapper>
+            <Box as="form" onSubmit={handleFormSubmit}>
+              {data.inputs.map((field: any, i: number) => {
+                const { label, type, required } = field;
+                if (
+                  type === InputType.ShortAnswer ||
+                  type === InputType.LongAnswer
+                ) {
+                  return (
+                    <FormElementWrapper key={i}>
+                      <>
+                        <FormControl isRequired={required}>
+                          <FormLabel>{label}</FormLabel>
+                          {type === InputType.ShortAnswer ? (
+                            <Input
+                              value={formResponse?.[i] || ""}
+                              onChange={(e) => {
+                                dispatch(
+                                  updateResponseInput({
+                                    index: i,
+                                    value: e.target.value,
+                                  })
+                                );
+                              }}
+                              isRequired={required}
+                            />
+                          ) : (
+                            <Textarea
+                              value={formResponse?.[i] || ""}
+                              onChange={(e) => {
+                                dispatch(
+                                  updateResponseInput({
+                                    index: i,
+                                    value: e.target.value,
+                                  })
+                                );
+                              }}
+                            />
+                          )}
+                        </FormControl>
+                      </>
+                    </FormElementWrapper>
+                  );
+                }
+
+                return (
+                  <Box key={field.id}>
+                    <FormLabel htmlFor={field.id}>{field.label}</FormLabel>
+                    <Input id={field.id} placeholder={field.placeholder} />
+                  </Box>
+                );
+              })}
+              <ButtonGroup
+                display="flex"
+                justifyContent="end"
+                variant="outline"
+                spacing="6"
+              >
+                <Button isLoading={isUpdating} type="submit" colorScheme="blue">
+                  Submit
+                </Button>
+
+                <Button
+                  onClick={() => dispatch(clearForm())}
+                  variant="solid"
+                  type="button"
+                >
+                  Clear form
+                </Button>
+              </ButtonGroup>
+            </Box>
           </>
-        </FormElementWrapper>
-        <Box as="form" onSubmit={handleFormSubmit}>
-          {data.inputs.map((field: any, i: number) => {
-            const { label, type, required } = field;
-            if (
-              type === InputType.ShortAnswer ||
-              type === InputType.LongAnswer
-            ) {
-              return (
-                <FormElementWrapper key={i}>
-                  <>
-                    <FormControl isRequired={required}>
-                      <FormLabel>{label}</FormLabel>
-                      {type === InputType.ShortAnswer ? (
-                        <Input
-                          value={formResponse?.[i] || ""}
-                          onChange={(e) => {
-                            dispatch(
-                              updateResponseInput({
-                                index: i,
-                                value: e.target.value,
-                              })
-                            );
-                          }}
-                          isRequired={required}
-                        />
-                      ) : (
-                        <Textarea
-                          value={formResponse?.[i] || ""}
-                          onChange={(e) => {
-                            dispatch(
-                              updateResponseInput({
-                                index: i,
-                                value: e.target.value,
-                              })
-                            );
-                          }}
-                        />
-                      )}
-                    </FormControl>
-                  </>
-                </FormElementWrapper>
-              );
-            }
-
-            return (
-              <Box key={field.id}>
-                <FormLabel htmlFor={field.id}>{field.label}</FormLabel>
-                <Input id={field.id} placeholder={field.placeholder} />
-              </Box>
-            );
-          })}
-          <ButtonGroup
-            display="flex"
-            justifyContent="end"
-            variant="outline"
-            spacing="6"
-          >
-            <Button isLoading={isUpdating} type="submit" colorScheme="blue">
-              Submit
-            </Button>
-
-            <Button
-              onClick={() => dispatch(clearForm())}
-              variant="solid"
-              type="button"
-            >
-              Clear form
-            </Button>
-          </ButtonGroup>
-        </Box>
+        )}
       </Container>
     </Box>
   );
