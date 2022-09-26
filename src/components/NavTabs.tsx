@@ -4,7 +4,7 @@ import { Link as ReactRouteLink } from "react-router-dom";
 const tabs = [
   {
     name: "Dashboard",
-    href: "/dashboard",
+    href: "/",
   },
   {
     name: "Forms",

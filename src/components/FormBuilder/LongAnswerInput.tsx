@@ -1,8 +1,14 @@
 import { Input, Box, Textarea } from "@chakra-ui/react";
+import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { updateInput } from "../../app/services/formBuilder/formBuilderSlice";
 
-const LongAnswerInput = ({ index }) => {
+type Props = {
+  index: number;
+  label: string;
+};
+
+const LongAnswerInput: FC<Props> = ({ index, label }) => {
   const dispatch = useDispatch();
 
   return (
@@ -17,6 +23,7 @@ const LongAnswerInput = ({ index }) => {
             })
           )
         }
+        value={label}
         placeholder="Question"
       />
       <Textarea placeholder="long answer text" disabled />

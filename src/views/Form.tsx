@@ -25,15 +25,13 @@ import {
   formResponseSelector,
   updateResponseInput,
 } from "../app/services/formResponse";
-import { FormBoxWrapper } from "../components/FormBuilder";
-// import { useRef } from "react";
+import FormElementWrapper from "../components/FormElementWrapper";
 import { useParams } from "react-router";
 
 const Form = () => {
   const dispatch = useDispatch();
   let { formId } = useParams();
 
-  console.log(formId);
   const { data, isLoading, error } = useGetFormQuery(formId);
   const formResponse = useSelector(formResponseSelector);
   const [submitForm, { isLoading: isUpdating }] = useSubmitFormMutation();
@@ -45,7 +43,6 @@ const Form = () => {
       formId,
       response: formResponse,
     });
-    console.log("Form submitted");
   };
 
   //   @FIXME: handler it in a better way
@@ -54,10 +51,12 @@ const Form = () => {
   return (
     <Box minH="100vh" py={4} px={2} bg="gray.200">
       <Container py={6}>
-        <FormBoxWrapper>
-          <Heading as="h1">{title}</Heading>
-          {description && <Text>{description}</Text>}
-        </FormBoxWrapper>
+        <FormElementWrapper>
+          <>
+            <Heading as="h1">{title}</Heading>
+            {description && <Text>{description}</Text>}
+          </>
+        </FormElementWrapper>
         <FormControl as="form" onSubmit={handleFormSubmit}>
           {data.formFields.map((field: any, i: number) => {
             const { label, type, required } = field;
@@ -66,36 +65,38 @@ const Form = () => {
               type === InputType.LongAnswer
             ) {
               return (
-                <FormBoxWrapper key={i}>
-                  <FormLabel>{label}</FormLabel>
-                  {type === InputType.ShortAnswer ? (
-                    <Input
-                      value={formResponse?.[i] || ""}
-                      onChange={(e) => {
-                        dispatch(
-                          updateResponseInput({
-                            index: i,
-                            value: e.target.value,
-                          })
-                        );
-                      }}
-                      isRequired={required}
-                    />
-                  ) : (
-                    <Textarea
-                      value={formResponse?.[i] || ""}
-                      onChange={(e) => {
-                        dispatch(
-                          updateResponseInput({
-                            index: i,
-                            value: e.target.value,
-                          })
-                        );
-                      }}
-                      isRequired={required}
-                    />
-                  )}
-                </FormBoxWrapper>
+                <FormElementWrapper key={i}>
+                  <>
+                    <FormLabel>{label}</FormLabel>
+                    {type === InputType.ShortAnswer ? (
+                      <Input
+                        value={formResponse?.[i] || ""}
+                        onChange={(e) => {
+                          dispatch(
+                            updateResponseInput({
+                              index: i,
+                              value: e.target.value,
+                            })
+                          );
+                        }}
+                        isRequired={required}
+                      />
+                    ) : (
+                      <Textarea
+                        value={formResponse?.[i] || ""}
+                        onChange={(e) => {
+                          dispatch(
+                            updateResponseInput({
+                              index: i,
+                              value: e.target.value,
+                            })
+                          );
+                        }}
+                        isRequired={required}
+                      />
+                    )}
+                  </>
+                </FormElementWrapper>
               );
             }
 

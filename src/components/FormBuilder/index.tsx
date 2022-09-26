@@ -1,45 +1,34 @@
 import { AddIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Text,
-  IconButton,
-  Input,
-} from "@chakra-ui/react";
-// import { useRouter } from "next/router";
-import { useRef } from "react";
+import { Box, Button, Container, Flex, Text, Input } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useCreateFormMutation } from "../../app/services/formApi";
 import {
-  allFormInputsSelector,
+  allFormBuilderInputsSelector,
   createInput,
+  updateTitleOrDescription,
 } from "../../app/services/formBuilder/formBuilderSlice";
 import FormInput from "./FormInput";
+import FormBoxWrapper from "../FormElementWrapper";
 
 const FormBuilder = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   // FIXME: the below selector makes the whole component re-render,
   // find a way to make it read only.
-  const allFormInputs = useSelector(allFormInputsSelector);
-
-  const _title = useRef(null);
-  const _description = useRef(null);
+  const allFormBuilderInputs = useSelector(allFormBuilderInputsSelector);
 
   // const router = useRouter();
   const [createForm, { isLoading: isUpdating }] = useCreateFormMutation();
 
   const saveForm = async () => {
-    // const title = _title.current.value;
-    // const description = _description.current.value;
-    // if (!title) return;
     // TODO": add toast or error state
-    // await createForm({
-    // title,
-    // description,
-    // formFields: allFormInputs,
-    // });
-    // router.replace("/forms");
+    await createForm({
+      title: allFormBuilderInputs.title,
+      description: allFormBuilderInputs.description,
+      formFields: allFormBuilderInputs.inputs,
+    });
+    navigate("/forms");
   };
   return (
     <>
@@ -49,19 +38,37 @@ const FormBuilder = () => {
       <Box bg="gray.200">
         <Container>
           <FormBoxWrapper>
-            <Input
-              ref={_title}
-              placeholder="Form title"
-              variant="unstyled"
-              fontSize="2xl"
-              defaultValue="Untitled Form"
-              maxLength={50}
-            />
-            <Input
-              ref={_description}
-              variant="unstyled"
-              placeholder="Form description"
-            />
+            <>
+              <Input
+                placeholder="Form title"
+                variant="unstyled"
+                fontSize="2xl"
+                onChange={(e) => {
+                  dispatch(
+                    updateTitleOrDescription({
+                      key: "title",
+                      value: e.target.value,
+                    })
+                  );
+                }}
+                value={allFormBuilderInputs.title}
+                defaultValue="Untitled Form"
+                maxLength={50}
+              />
+              <Input
+                variant="unstyled"
+                onChange={(e) => {
+                  dispatch(
+                    updateTitleOrDescription({
+                      key: "description",
+                      value: e.target.value,
+                    })
+                  );
+                }}
+                value={allFormBuilderInputs.description}
+                placeholder="Form description"
+              />
+            </>
           </FormBoxWrapper>
           <FormInputs />
         </Container>
@@ -74,11 +81,11 @@ export default FormBuilder;
 
 const FormInputs = () => {
   const dispatch = useDispatch();
-  const allFormInputs = useSelector(allFormInputsSelector);
+  const allFormBuilderInputs = useSelector(allFormBuilderInputsSelector);
   return (
     <Box>
-      {allFormInputs.map((formInput, i) => (
-        // FIXME: DONT USE INDEX AS KEY
+      {allFormBuilderInputs.inputs.map((formInput: any, i: number) => (
+        // FIXME: DONT USE INDEX AS KEY as input can be deleted which causes inconsistent key
         <FormInput key={i} data={formInput} index={i} />
       ))}
       <Flex justifyContent="end" px={2} mb={20}>
@@ -88,21 +95,11 @@ const FormInputs = () => {
           alignItems="center"
           onClick={() => dispatch(createInput())}
           bg="white"
-          // TODO:
-          aria-label={""}
         >
           <Text as="span">Add new field</Text>
           <AddIcon aria-hidden />
         </Button>
       </Flex>
-    </Box>
-  );
-};
-
-export const FormBoxWrapper = ({ children }) => {
-  return (
-    <Box bg="white" m={2} px={4} py={8}>
-      {children}
     </Box>
   );
 };

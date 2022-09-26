@@ -18,7 +18,6 @@ export const formApi = createApi({
     getForm: builder.query<any, any>({
       query: (formID) => ({
         url: `forms/${formID}`,
-        method: "GET",
       }),
     }),
     submitForm: builder.mutation<any, any>({

@@ -1,8 +1,14 @@
 import { Input, Box } from "@chakra-ui/react";
+import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { updateInput } from "../../app/services/formBuilder/formBuilderSlice";
 
-const ShortAnswerInput = ({ index }) => {
+type Props = {
+  index: number;
+  label: string;
+};
+
+const ShortAnswerInput: FC<Props> = ({ index, label }) => {
   const dispatch = useDispatch();
 
   return (
@@ -17,6 +23,7 @@ const ShortAnswerInput = ({ index }) => {
             })
           )
         }
+        value={label}
         placeholder="Question"
       />
       <Input placeholder="short answer text" disabled />

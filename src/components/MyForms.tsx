@@ -6,7 +6,6 @@ import { Link as ReactRouteLink } from "react-router-dom";
 
 const MyForms = () => {
   const { data: forms, isLoading, error } = useGetUserFormsQuery();
-  console.log(import.meta.env.VITE_API_BASE_URL);
   if (isLoading) return <Text>Loading...</Text>;
   if (error) return <Text> error </Text>;
 
@@ -15,9 +14,9 @@ const MyForms = () => {
       <Text as="h2" fontSize="2xl">
         My Forms
       </Text>
-      {forms.map((form: any) => (
-        <FormCard key={form.createdAt} form={form} />
-      ))}
+      {forms.map((form: any) => {
+        return <FormCard key={form.createdAt._seconds} form={form} />;
+      })}
     </Box>
   );
 };

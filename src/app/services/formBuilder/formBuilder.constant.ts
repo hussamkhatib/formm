@@ -11,4 +11,5 @@ export const inputTypeOptions = Object.values(InputType);
 export const defaultNewInput = {
   type: InputType.ShortAnswer,
   required: false,
+  label: "",
 };
