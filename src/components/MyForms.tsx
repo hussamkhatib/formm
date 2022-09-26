@@ -9,6 +9,9 @@ const MyForms = () => {
   if (isLoading) return <Text>Loading...</Text>;
   if (error) return <Text> error </Text>;
 
+  if (Array.isArray(forms) && forms.length === 0)
+    return <Text fontSize="xl"> No forms yet </Text>;
+
   return (
     <Box py={2} as="section">
       <Text as="h2" fontSize="2xl">

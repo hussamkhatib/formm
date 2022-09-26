@@ -46,7 +46,9 @@ const Form = () => {
   };
 
   //   @FIXME: handler it in a better way
-  if (isLoading || error) return <Text>Loading or error</Text>;
+  if (isLoading) return <Text>Loading </Text>;
+  if (error) return <Text>Something went wrong</Text>;
+
   const { title, description } = data;
   return (
     <Box minH="100vh" py={4} px={2} bg="gray.200">
@@ -58,7 +60,7 @@ const Form = () => {
           </>
         </FormElementWrapper>
         <FormControl as="form" onSubmit={handleFormSubmit}>
-          {data.formFields.map((field: any, i: number) => {
+          {data.inputs.map((field: any, i: number) => {
             const { label, type, required } = field;
             if (
               type === InputType.ShortAnswer ||

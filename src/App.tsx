@@ -2,7 +2,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-//
 import { Provider } from "react-redux";
 import Dashboard from "./views/Dashboard";
 import { store } from "./app/store";
@@ -10,6 +9,7 @@ import MyFormsPage from "./views/MyForms";
 import Form from "./views/Form";
 import NewForm from "./views/NewForm";
 import Login from "./views/Login";
+import EditForm from "./views/EditForm";
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/forms" element={<MyFormsPage />} />
             <Route path="/forms/:formId" element={<Form />} />
+            <Route path="/forms/:formId/edit" element={<EditForm />} />
             <Route path="/forms/new" element={<NewForm />} />
             <Route path="/login" element={<Login />} />
           </Routes>

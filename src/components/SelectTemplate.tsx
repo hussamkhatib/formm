@@ -31,13 +31,14 @@ const SelectTemplate = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
-    <Box px={2} py={12}>
+    <Box px={2} pt={6} pb={12}>
       <Text fontSize="2xl" mb="3">
         Start a new form
       </Text>
       <Flex gap={8}>
         {templates.map((template) => (
           <Flex
+            cursor="pointer"
             onClick={() => {
               if (template.action) dispatch(template.action());
               navigate("/forms/new");

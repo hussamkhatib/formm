@@ -1,8 +1,14 @@
 import { AddIcon } from "@chakra-ui/icons";
-import { Box, Button, Container, Flex, Text, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Text,
+  Input,
+  Grid,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useCreateFormMutation } from "../../app/services/formApi";
 import {
   allFormBuilderInputsSelector,
   createInput,
@@ -10,74 +16,69 @@ import {
 } from "../../app/services/formBuilder/formBuilderSlice";
 import FormInput from "./FormInput";
 import FormBoxWrapper from "../FormElementWrapper";
+import { FC, ReactNode } from "react";
 
-const FormBuilder = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  // FIXME: the below selector makes the whole component re-render,
-  // find a way to make it read only.
-  const allFormBuilderInputs = useSelector(allFormBuilderInputsSelector);
+type Props = {
+  children: ReactNode;
+};
 
-  // const router = useRouter();
-  const [createForm, { isLoading: isUpdating }] = useCreateFormMutation();
-
-  const saveForm = async () => {
-    // TODO": add toast or error state
-    await createForm({
-      title: allFormBuilderInputs.title,
-      description: allFormBuilderInputs.description,
-      formFields: allFormBuilderInputs.inputs,
-    });
-    navigate("/forms");
-  };
+const FormBuilder: FC<Props> = ({ children }) => {
   return (
-    <>
-      <Flex py={2} px={4} justifyContent="end">
-        <Button onClick={saveForm}>save</Button>
-      </Flex>
+    <Grid minHeight="100vh" templateRows="auto 1fr">
+      {children}
+
       <Box bg="gray.200">
         <Container>
-          <FormBoxWrapper>
-            <>
-              <Input
-                placeholder="Form title"
-                variant="unstyled"
-                fontSize="2xl"
-                onChange={(e) => {
-                  dispatch(
-                    updateTitleOrDescription({
-                      key: "title",
-                      value: e.target.value,
-                    })
-                  );
-                }}
-                value={allFormBuilderInputs.title}
-                defaultValue="Untitled Form"
-                maxLength={50}
-              />
-              <Input
-                variant="unstyled"
-                onChange={(e) => {
-                  dispatch(
-                    updateTitleOrDescription({
-                      key: "description",
-                      value: e.target.value,
-                    })
-                  );
-                }}
-                value={allFormBuilderInputs.description}
-                placeholder="Form description"
-              />
-            </>
-          </FormBoxWrapper>
+          <FormHeader />
           <FormInputs />
         </Container>
       </Box>
-    </>
+    </Grid>
   );
 };
 
 export default FormBuilder;
+
+const FormHeader = () => {
+  const dispatch = useDispatch();
+  const allFormBuilderInputs = useSelector(allFormBuilderInputsSelector);
+
+  return (
+    <FormBoxWrapper>
+      <>
+        <Input
+          placeholder="Form title"
+          variant="unstyled"
+          fontSize="2xl"
+          onChange={(e) => {
+            dispatch(
+              updateTitleOrDescription({
+                key: "title",
+                value: e.target.value,
+              })
+            );
+          }}
+          value={allFormBuilderInputs.title}
+          defaultValue="Untitled Form"
+          maxLength={50}
+        />
+        <Input
+          variant="unstyled"
+          onChange={(e) => {
+            dispatch(
+              updateTitleOrDescription({
+                key: "description",
+                value: e.target.value,
+              })
+            );
+          }}
+          value={allFormBuilderInputs.description}
+          placeholder="Form description"
+        />
+      </>
+    </FormBoxWrapper>
+  );
+};
 
 const FormInputs = () => {
   const dispatch = useDispatch();

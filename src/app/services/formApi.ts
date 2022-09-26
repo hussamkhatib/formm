@@ -5,7 +5,7 @@ export const formApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_BASE_URL,
   }),
-  tagTypes: ["USERFORMS"],
+  tagTypes: ["USERFORMS", "FORM"],
   endpoints: (builder) => ({
     createForm: builder.mutation<any, any>({
       query: (body) => ({
@@ -15,10 +15,19 @@ export const formApi = createApi({
       }),
       invalidatesTags: ["USERFORMS"],
     }),
+    updateForm: builder.mutation<any, any>({
+      query: ({ body, formId }) => ({
+        url: `forms/${formId}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["USERFORMS", "FORM"],
+    }),
     getForm: builder.query<any, any>({
       query: (formID) => ({
         url: `forms/${formID}`,
       }),
+      providesTags: ["FORM"],
     }),
     submitForm: builder.mutation<any, any>({
       query: ({ formId, response: body }) => ({
@@ -38,4 +47,5 @@ export const {
   useSubmitFormMutation,
   useGetFormQuery,
   useGetUserFormsQuery,
+  useUpdateFormMutation,
 } = formApi;
