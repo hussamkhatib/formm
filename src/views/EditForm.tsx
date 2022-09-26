@@ -44,7 +44,9 @@ const EditForm = () => {
   return (
     <FormBuilder>
       <Flex py={2} px={4} justifyContent="end">
-        <Button onClick={handleUpdate}>update</Button>
+        <Button isLoading={isUpdating} onClick={handleUpdate}>
+          update
+        </Button>
       </Flex>
     </FormBuilder>
   );

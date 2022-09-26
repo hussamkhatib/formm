@@ -118,7 +118,7 @@ const Form = () => {
             variant="outline"
             spacing="6"
           >
-            <Button type="submit" colorScheme="blue">
+            <Button isLoading={isUpdating} type="submit" colorScheme="blue">
               Submit
             </Button>
 

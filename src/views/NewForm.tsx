@@ -10,10 +10,20 @@ const NewForm = () => {
   const navigate = useNavigate();
   const allFormBuilderInputs = useSelector(allFormBuilderInputsSelector);
 
-  const [createForm, { isLoading: isUpdating }] = useCreateFormMutation();
+  const [createForm, { isLoading }] = useCreateFormMutation();
 
   const handleCreate = async () => {
-    // TODO: handle error
+    if (!allFormBuilderInputs.title) {
+      toast.error("Please enter a title");
+      return;
+    }
+    if (
+      Array.isArray(allFormBuilderInputs.inputs) &&
+      !allFormBuilderInputs.inputs.length
+    ) {
+      toast.error("Please add at least one question");
+      return;
+    }
     await createForm({
       title: allFormBuilderInputs.title,
       description: allFormBuilderInputs.description,
@@ -25,7 +35,9 @@ const NewForm = () => {
   return (
     <FormBuilder>
       <Flex py={2} px={4} justifyContent="end">
-        <Button onClick={handleCreate}>Create</Button>
+        <Button isLoading={isLoading} onClick={handleCreate}>
+          Create
+        </Button>
       </Flex>
     </FormBuilder>
   );
