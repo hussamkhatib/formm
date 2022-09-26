@@ -8,12 +8,7 @@ import {
   Button,
   Textarea,
 } from "@chakra-ui/react";
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetFormQuery,
@@ -57,9 +52,16 @@ const Form = () => {
           <>
             <Heading as="h1">{title}</Heading>
             {description && <Text>{description}</Text>}
+            <Text>
+              All the fields marked as{" "}
+              <Text fontSize="sm" color="red.500" as="span">
+                *{" "}
+              </Text>
+              are required
+            </Text>
           </>
         </FormElementWrapper>
-        <FormControl as="form" onSubmit={handleFormSubmit}>
+        <Box as="form" onSubmit={handleFormSubmit}>
           {data.inputs.map((field: any, i: number) => {
             const { label, type, required } = field;
             if (
@@ -69,34 +71,35 @@ const Form = () => {
               return (
                 <FormElementWrapper key={i}>
                   <>
-                    <FormLabel>{label}</FormLabel>
-                    {type === InputType.ShortAnswer ? (
-                      <Input
-                        value={formResponse?.[i] || ""}
-                        onChange={(e) => {
-                          dispatch(
-                            updateResponseInput({
-                              index: i,
-                              value: e.target.value,
-                            })
-                          );
-                        }}
-                        isRequired={required}
-                      />
-                    ) : (
-                      <Textarea
-                        value={formResponse?.[i] || ""}
-                        onChange={(e) => {
-                          dispatch(
-                            updateResponseInput({
-                              index: i,
-                              value: e.target.value,
-                            })
-                          );
-                        }}
-                        isRequired={required}
-                      />
-                    )}
+                    <FormControl isRequired={required}>
+                      <FormLabel>{label}</FormLabel>
+                      {type === InputType.ShortAnswer ? (
+                        <Input
+                          value={formResponse?.[i] || ""}
+                          onChange={(e) => {
+                            dispatch(
+                              updateResponseInput({
+                                index: i,
+                                value: e.target.value,
+                              })
+                            );
+                          }}
+                          isRequired={required}
+                        />
+                      ) : (
+                        <Textarea
+                          value={formResponse?.[i] || ""}
+                          onChange={(e) => {
+                            dispatch(
+                              updateResponseInput({
+                                index: i,
+                                value: e.target.value,
+                              })
+                            );
+                          }}
+                        />
+                      )}
+                    </FormControl>
                   </>
                 </FormElementWrapper>
               );
@@ -127,7 +130,7 @@ const Form = () => {
               Clear form
             </Button>
           </ButtonGroup>
-        </FormControl>
+        </Box>
       </Container>
     </Box>
   );
