@@ -23,6 +23,13 @@ export const formApi = createApi({
       }),
       invalidatesTags: ["USERFORMS", "FORM"],
     }),
+    deleteForm: builder.mutation<any, any>({
+      query: (formId) => ({
+        url: `forms/${formId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["USERFORMS"],
+    }),
     getForm: builder.query<any, any>({
       query: (formID) => ({
         url: `forms/${formID}`,
@@ -48,4 +55,5 @@ export const {
   useGetFormQuery,
   useGetUserFormsQuery,
   useUpdateFormMutation,
+  useDeleteFormMutation,
 } = formApi;

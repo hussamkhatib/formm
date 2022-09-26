@@ -86,8 +86,7 @@ const FormInputs = () => {
   return (
     <Box>
       {allFormBuilderInputs.inputs.map((formInput: any, i: number) => (
-        // FIXME: DONT USE INDEX AS KEY as input can be deleted which causes inconsistent key
-        <FormInput key={i} data={formInput} index={i} />
+        <FormInput key={formInput.id} data={formInput} index={i} />
       ))}
       <Flex justifyContent="end" px={2} mb={20}>
         <Button

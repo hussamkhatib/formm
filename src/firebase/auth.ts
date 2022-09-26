@@ -40,28 +40,26 @@ export const signInWithEmailAndPassword = async (
     });
 };
 
-export const createUserWithEmailAndPassword = async (
-  email: string,
-  password: string
-) => {
-  try {
-    const { user } = await firebaseCreateUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    return { user: getUser(user) };
-  } catch (error) {
-    return { error };
-  }
-};
+// export const createUserWithEmailAndPassword = async (
+//   email: string,
+//   password: string
+// ) => {
+//   try {
+//     const { user } = await firebaseCreateUserWithEmailAndPassword(
+//       auth,
+//       email,
+//       password
+//     );
+//     return { user: getUser(user) };
+//   } catch (error) {
+//     return { error };
+//   }
+// };
 
-function getUser(user) {
-  return {
-    uid: user.uid,
-    displayName: user.displayName,
-    email: user.email,
-    // phoneNumber: user.phoneNumber,
-    // photoURL: user.photoURL,
-  };
-}
+// function getUser(user) {
+//   return {
+//     uid: user.uid,
+//     displayName: user.displayName,
+//     email: user.email,
+//   };
+// }

@@ -75,9 +75,8 @@ const FormInput: FC<Props> = ({ data, index }) => {
           </Flex>
           <IconButton
             onClick={() => dispatch(deleteInput({ index }))}
-            // /TODO:
             size="sm"
-            aria-label={""}
+            aria-label="delete input"
             icon={<DeleteIcon />}
           />
         </Flex>
