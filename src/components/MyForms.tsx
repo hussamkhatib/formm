@@ -61,7 +61,6 @@ const MyForms = () => {
 export default MyForms;
 
 const FormCard = ({ form }: { form: Form }) => {
-  console.log(form);
   return (
     <Box>
       <Flex
