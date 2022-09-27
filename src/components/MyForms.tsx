@@ -44,13 +44,14 @@ const MyForms = () => {
   if (isLoading) return <Loader />;
   if (error) return <Text> error </Text>;
 
-  if (Array.isArray(forms) && forms.length === 0)
-    return <Text fontSize="xl"> No forms yet </Text>;
   return (
     <Box py={2} as="section">
       <Text as="h2" fontSize="2xl">
         My Forms
       </Text>
+      {Array.isArray(forms) && forms.length === 0 && (
+        <Text fontSize="xl"> No forms yet </Text>
+      )}
       {forms.map((form: Form) => {
         return <FormCard key={form.createdAt._seconds} form={form} />;
       })}
