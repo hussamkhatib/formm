@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { defaultNewInput, InputType } from "./formBuilder.constant";
+import { v4 as uuidv4 } from "uuid";
 
 type Input = {
   type: InputType;
@@ -30,11 +31,13 @@ const contactTemplateState = {
   description: "",
   inputs: [
     {
+      id: uuidv4(),
       type: InputType.ShortAnswer,
       required: true,
       label: "please enter your email",
     },
     {
+      id: uuidv4(),
       type: InputType.ShortAnswer,
       required: true,
       label: "please enter your phone number",
@@ -46,11 +49,13 @@ const eventTemplateState = {
   description: "RSVP for our event",
   inputs: [
     {
+      id: uuidv4(),
       type: InputType.ShortAnswer,
       required: true,
       label: "please enter your email",
     },
     {
+      id: uuidv4(),
       type: InputType.LongAnswer,
       required: true,
       label: "Why do you want to attend this event?",

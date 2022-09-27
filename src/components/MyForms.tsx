@@ -85,7 +85,9 @@ const FormCard = ({ form }: { form: Form }) => {
           <Text>{form.title}</Text>
         </Link>
         <ButtonGroup spacing={4}>
-          <IconButton icon={<EditIcon />} aria-label="edit icon" />
+          <Link as={ReactRouteLink} to={`/forms/${form.formId}/edit`}>
+            <IconButton icon={<EditIcon />} aria-label="edit icon" />
+          </Link>
           <DeleteForm formId={form.formId} />
         </ButtonGroup>
       </Flex>

@@ -35,7 +35,7 @@ const SelectTemplate = () => {
       <Text fontSize="2xl" mb="3">
         Start a new form
       </Text>
-      <Flex gap={8}>
+      <Flex gap={8} flexWrap="wrap" justifyContent="center">
         {templates.map((template) => (
           <Flex
             cursor="pointer"
