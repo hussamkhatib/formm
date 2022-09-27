@@ -24,6 +24,11 @@ const NewForm = () => {
       toast.error("Please add at least one question");
       return;
     }
+    if (allFormBuilderInputs.inputs.some((input: any) => !input.label)) {
+      toast.error("Please enter a label for all questions");
+      return;
+    }
+
     await createForm({
       title: allFormBuilderInputs.title,
       description: allFormBuilderInputs.description,
