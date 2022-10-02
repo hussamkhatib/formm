@@ -1,13 +1,25 @@
 import { Button, Flex } from "@chakra-ui/react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCreateFormMutation } from "../app/services/formApi";
-import { allFormBuilderInputsSelector } from "../app/services/formBuilder/formBuilderSlice";
+import {
+  allFormBuilderInputsSelector,
+  setTemplate,
+} from "../app/services/formBuilder/formBuilderSlice";
 import FormBuilder from "../components/FormBuilder";
 
 const NewForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const template = searchParams.get("template");
+    dispatch(setTemplate(template));
+  }, []);
+
   const allFormBuilderInputs = useSelector(allFormBuilderInputsSelector);
 
   const [createForm, { isLoading }] = useCreateFormMutation();

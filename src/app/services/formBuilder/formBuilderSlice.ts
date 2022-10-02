@@ -70,6 +70,16 @@ export const slice = createSlice({
     initForm: (state, action) => {
       return action.payload;
     },
+    setTemplate: (state, action) => {
+      switch (action.payload) {
+        case "contact":
+          return contactTemplateState;
+        case "event":
+          return eventTemplateState;
+        default:
+          return state;
+      }
+    },
     createInput: (state) => {
       state.inputs.push(defaultNewInput);
     },
@@ -91,27 +101,16 @@ export const slice = createSlice({
       state.inputs[action.payload.index][action.payload.key] =
         action.payload.value;
     },
-    blankTemplate: () => {
-      return initialState;
-    },
-    contactTemplate: () => {
-      return contactTemplateState;
-    },
-    eventTemplate: () => {
-      return eventTemplateState;
-    },
   },
 });
 
 export const {
-  blankTemplate,
   initForm,
+  setTemplate,
   createInput,
   deleteInput,
   updateInput,
   updateInputType,
-  contactTemplate,
-  eventTemplate,
   updateTitleOrDescription,
 } = slice.actions;
 export const allFormBuilderInputsSelector = (state: any) => state.formBuilder;

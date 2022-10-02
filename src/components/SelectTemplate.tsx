@@ -1,29 +1,24 @@
 import { AddIcon, CalendarIcon, EmailIcon } from "@chakra-ui/icons";
-import { Box, Flex, Text, Link } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  blankTemplate,
-  contactTemplate,
-  eventTemplate,
-} from "../app/services/formBuilder/formBuilderSlice";
 
-// @TODO: add href for each tab
+const newTemplateBaseUrl = "/forms/new";
 const templates = [
   {
     name: "Blank",
     icon: <AddIcon w={24} h={24} color="gray.500" />,
-    action: blankTemplate,
+    path: "?template=blank",
   },
   {
     name: "Contact Information",
     icon: <EmailIcon w={24} h={24} color="gray.500" />,
-    action: contactTemplate,
+    path: "?template=contact",
   },
   {
     name: "Event",
     icon: <CalendarIcon w={24} h={24} color="gray.500" />,
-    action: eventTemplate,
+    path: "?template=event",
   },
 ];
 
@@ -39,10 +34,7 @@ const SelectTemplate = () => {
         {templates.map((template) => (
           <Flex
             cursor="pointer"
-            onClick={() => {
-              if (template.action) dispatch(template.action());
-              navigate("/forms/new");
-            }}
+            onClick={() => navigate(`${newTemplateBaseUrl}${template.path}`)}
             key={template.name}
             direction="column"
             alignItems="center"
@@ -56,7 +48,6 @@ const SelectTemplate = () => {
             {template.icon}
             <Text fontSize="lg">{template.name}</Text>
           </Flex>
-          // </Link>
         ))}
       </Flex>
     </Box>
