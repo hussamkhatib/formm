@@ -20,6 +20,19 @@ const NewForm = () => {
     dispatch(setTemplate(template));
   }, []);
 
+  useEffect(() => {
+    const beforeUnloadListener = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      return (event.returnValue = "Are you sure you want to exit?");
+    };
+
+    window.addEventListener("beforeunload", beforeUnloadListener);
+
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadListener);
+    };
+  }, []);
+
   const allFormBuilderInputs = useSelector(allFormBuilderInputsSelector);
 
   const [createForm, { isLoading }] = useCreateFormMutation();

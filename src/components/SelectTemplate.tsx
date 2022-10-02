@@ -1,6 +1,5 @@
 import { AddIcon, CalendarIcon, EmailIcon } from "@chakra-ui/icons";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const newTemplateBaseUrl = "/forms/new";
@@ -24,7 +23,6 @@ const templates = [
 
 const SelectTemplate = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   return (
     <Box px={2} pt={6} pb={12}>
       <Text fontSize="2xl" mb="3">

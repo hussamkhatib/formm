@@ -30,6 +30,19 @@ const EditForm = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    const beforeUnloadListener = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      return (event.returnValue = "Are you sure you want to exit?");
+    };
+
+    window.addEventListener("beforeunload", beforeUnloadListener);
+
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadListener);
+    };
+  }, []);
+
   if (isLoading) return <Loader />;
   if (error) return <Text>Error</Text>;
 
